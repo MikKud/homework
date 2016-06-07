@@ -8,7 +8,7 @@ using namespace std;
 
 int main()
 {
-	try {
+	
 		/*cout << "Name of first directory is <d1> " << endl << "in <d1> there are <d1_2> directory and files <f1> and <f2> and <f3>" << endl;
 		cout << "In <d1_2> file <f3>"<<endl<<endl;*/
 		ComDir d1("d1");
@@ -69,6 +69,7 @@ int main()
 		cout << "getdata - data of opened file" << endl<< "delfile - to delete file from current directory"<< endl;
 		while (command != "end")
 		{
+			try {
 			cin >> command;
 			
 			if (command == "delfile")
