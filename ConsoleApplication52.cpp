@@ -51,16 +51,16 @@ int main()
 			cout << endl << endl << endl;*/
 
 		string command = "start";
-		ComDir* Uptr = new ComDir;
-		ComDir* Stptr = new ComDir;
-		ComFile* Fileptr = new ComFile;
-		ComFile* NewFptr = new ComFile;
-		ComDir* NewDptr = new ComDir;
-		NewFptr = &f2;
+		ComDir* Uptr = &d1;
+		ComDir* Stptr = &d1;
+		ComFile* Fileptr = &f1;
+		ComFile* NewFptr = &f2;
+		ComDir* NewDptr = &d2;
+		/*NewFptr = &f2;
 		NewDptr = &d2;
 		Uptr = &d1;
 		Stptr = &d1;
-		Fileptr = &f1;
+		Fileptr = &f1;*/
 		cout << "Your first direktory is <d1>" << endl;
 		cout << "to come to d1 use command gotop" << endl;
 		cout << "These are coomands to use" << endl << "list - to see what is in the directory" << endl << "ListALL - to see what is lower the directory" << endl << "cd - to go through direktories";
@@ -164,12 +164,13 @@ int main()
 				cout << endl << "wrong command" << endl;
 			}*/
 		}
+			catch (invalid_argument& e)
+			{
+				cerr << e.what() << endl;
+				//return -1;
+			}
 	}
-	catch (invalid_argument& e)
-	{
-		cerr << e.what() << endl;
-		return -1;
-	}
+	
 	system("pause");
 	return 0;
 }
