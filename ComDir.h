@@ -14,19 +14,91 @@ public:
 	ComDir();
 	ComDir(string);
 	string getName();
+	void setName(string);
 	void addFile(ComFile &);
 	void addDir(ComDir &);
 	void ListAll();
+	void ListDir(ComDir &);
+	void LSR(ComDir &);
 	void delFile(string);
 	void delDir(string);
 	void search(ComDir &, string);
 	void ComDir::delDir(ComDir &);
+	ComFile* open();
+	ComDir* cd();
 	~ComDir();
 private:
 	string name;
 	vector<ComDir> dirList;
 	vector<ComFile> fileList;
 };
+ComDir* ptr = new ComDir;
+ComFile* Fptr = new ComFile;
+
+
+
+ComFile* ComDir::open()
+{
+	string name;
+	cin >> name;
+	for (int i = 0; i < fileList.size(); i++)
+	{
+		if (fileList[i].getName() == name)
+			Fptr = &(fileList[i]);
+	}
+
+	return Fptr;
+}
+
+ComDir* ComDir::cd()
+{
+	string name;
+	cin >> name;
+	for (int i = 0; i < dirList.size(); i++)
+	{
+		if (dirList[i].getName() == name)
+			ptr = &(dirList[i]);
+	}
+
+	return ptr;
+}
+void ComDir::setName(string n)
+{
+	name = n;
+}
+void ComDir::LSR(ComDir &dir1)
+{
+	cout << dir1.getName() << endl << endl;
+
+	for (int i = 0; i<dir1.fileList.size(); i++) {
+		 {
+			cout << dir1.fileList[i].getName() << "  "  << endl;
+		}
+
+	}
+	for (int i = 0; i < dir1.dirList.size(); i++)
+	{
+
+		LSR(dir1.dirList[i]);
+	}
+	
+}
+
+void ComDir::ListDir(ComDir &dir1)
+{
+	for (int i = 0; i<dir1.fileList.size(); i++)
+	{
+		cout << "Files" << endl;
+		cout << dir1.fileList[i].getName() << endl;
+	}
+	cout << endl;
+	for (int i = 0; i<dir1.dirList.size(); i++)
+	{
+		cout << "Directories" << endl;
+		cout << dir1.dirList[i].getName() << endl;
+	}
+}
+
 
 int j = 0;
 void ComDir::search(ComDir &dir1, string iname)
@@ -68,8 +140,8 @@ void ComDir::delFile(string iname) {
 	}
 }
 
-void ComDir::addDir(ComDir &iFile) {
-	dirList.push_back(iFile);
+void ComDir::addDir(ComDir &iDir) {
+	dirList.push_back(iDir);
 }
 
 void ComDir::delDir(ComDir &dir1) {
