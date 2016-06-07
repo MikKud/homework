@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <stdexcept>
 #include "ComFile.h"
 using namespace std;
 
@@ -36,30 +37,43 @@ ComDir* ptr = new ComDir;
 ComFile* Fptr = new ComFile;
 
 
-
 ComFile* ComDir::open()
 {
+    int	count = 0;
 	string name;
 	cin >> name;
 	for (int i = 0; i < fileList.size(); i++)
 	{
 		if (fileList[i].getName() == name)
+		{
 			Fptr = &(fileList[i]);
+			count++;
+		}
 	}
-
+	if (!count)
+	{
+		throw invalid_argument("There is no File with such name");
+	}
 	return Fptr;
 }
 
 ComDir* ComDir::cd()
 {
+	int count = 0;
 	string name;
 	cin >> name;
 	for (int i = 0; i < dirList.size(); i++)
 	{
 		if (dirList[i].getName() == name)
+		{
 			ptr = &(dirList[i]);
+			count++;
+		}
 	}
-
+	if (!count)
+	{
+		throw invalid_argument("There is no Directory with such name");
+	}
 	return ptr;
 }
 void ComDir::setName(string n)
@@ -72,7 +86,7 @@ void ComDir::LSR(ComDir &dir1)
 
 	for (int i = 0; i<dir1.fileList.size(); i++) {
 		 {
-			cout << dir1.fileList[i].getName() << "  "  << endl;
+			cout << dir1.fileList[i].getName() << "  " << endl ;
 		}
 
 	}
@@ -126,21 +140,41 @@ ComDir::ComDir(string iname) : name(iname) {
 }
 
 void ComDir::addFile(ComFile &iFile) {
+	for (int i = 0; i < fileList.size(); i++)
+	{
+		if(fileList[i].getName()==iFile.getName())
+			{
+				throw invalid_argument("There is a file with such name already");
+			}
+	}
 	fileList.push_back(iFile);
 }
 
 void ComDir::delFile(string iname) {
+	int count = 0;
 	for (int i = 0; i<fileList.size(); i++)
 	{
 		if (fileList[i].getName() == iname)
 		{
+			count++;
 			fileList.erase(fileList.begin() + i);
 			break;
 		}
 	}
+	if (!count)
+	{
+		throw invalid_argument("There is no File with such name");
+	}
 }
 
 void ComDir::addDir(ComDir &iDir) {
+	for (int i = 0; i < dirList.size(); i++)
+	{
+		if (dirList[i].getName() == iDir.getName())
+		{
+			throw invalid_argument("There is a dir with such name already");
+		}
+	}
 	dirList.push_back(iDir);
 }
 
@@ -169,14 +203,14 @@ string ComDir::getName() {
 void ComDir::ListAll() {
 	for (int i = 0; i<fileList.size(); i++)
 	{
-		cout << "Files /n";
-		cout << fileList[i].getName();
+		cout << "Files "<<endl;
+		cout << fileList[i].getName()<<endl;
 	}
 	cout << endl;
 	for (int i = 0; i<dirList.size(); i++)
 	{
-		cout << "Directories /n";
-		cout << dirList[i].getName();
+		cout << "Directories"<<endl;
+		cout << dirList[i].getName()<<endl;
 	}
 }
 
